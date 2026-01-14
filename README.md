@@ -50,8 +50,8 @@ Copy code
 git clone https://github.com/your-org/chatdb.git
 cd chatdb
 Create a virtual environment:
-```
-```bash
+
+bash
 Copy code
 python -m venv chatdb
 ```
