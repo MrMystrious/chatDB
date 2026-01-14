@@ -17,30 +17,49 @@
 - **Safe execution engine**: Queries are executed on the database only after validation, never exposing large datasets in memory.
 
 ---
+## 🏗️ Architecture
 
-## Architecture
+The following flowchart illustrates how a natural language query is transformed into a safe, executable SQL result:
 
-User Query (Natural Language)
-│
-▼
-ChatDB Parser
-│
-▼
-SQL Execution Plan (Step1, Step2...)
-│
-▼
-ExecutionPlanValidator (AST Validation)
-│
-▼
-Safe SQL Execution (MySQL)
-│
-▼
-Aggregated / Summarized Result
-
-yaml
-Copy code
-
+```mermaid
+graph TD
+    A[User Query - Natural Language] --> B[ChatDB Parser]
+    B --> C[SQL Execution Plan - Step1, Step2...]
+    C --> D[ExecutionPlanValidator - AST Validation]
+    D --> E[Safe SQL Execution - MySQL]
+    E --> F[Aggregated / Summarized Result]
+    
+    style D fill:#f96,stroke:#333,stroke-width:2px
+    style E fill:#bbf,stroke:#333,stroke-width:2px
+```
 ---
+
+### Why this is better:
+* **Scalability**: If you add a new step (like "Cache Check"), you just add one line to the code.
+* **Visual Clarity**: It uses actual boxes and arrows instead of keyboard symbols (`|`, `V`).
+* **Safety Highlight**: In the code above, I added `style` tags to make the **Validator** and **Execution** steps stand out, emphasizing the security of your tool.
+
+### If you prefer the text-based version:
+If you don't want to use Mermaid, you should wrap your text diagram in a **code block** to ensure the characters stay aligned:
+
+```text
+User Query (Natural Language)
+          │
+          ▼
+    ChatDB Parser
+          │
+          ▼
+ SQL Execution Plan (Step 1, 2...)
+          │
+          ▼
+ExecutionPlanValidator (Regex check) [AST Check will be implemented in future]
+          │
+          ▼
+  Safe SQL Execution (MySQL)
+          │
+          ▼
+  Aggregated / Summarized Result
+```
 
 ## Installation
 
