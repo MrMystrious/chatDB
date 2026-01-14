@@ -17,7 +17,7 @@
 - **Safe execution engine**: Queries are executed on the database only after validation, never exposing large datasets in memory.
 
 ---
-## 🏗️ Architecture
+##  Architecture
 
 The following flowchart illustrates how a natural language query is transformed into a safe, executable SQL result:
 
@@ -61,61 +61,58 @@ ExecutionPlanValidator (Regex check) [AST Check will be implemented in future]
   Aggregated / Summarized Result
 ```
 
-## Installation
+##  Installation
 
-1. Clone the repository:
+Follow these steps to set up ChatDB on your local machine:
 
+### 1. Clone the Repository
+Open your terminal and run:
 ```bash
-git clone https://github.com/your-org/chatdb.git
+git clone [https://github.com/your-org/chatdb.git](https://github.com/your-org/chatdb.git)
 cd chatdb
-Create a virtual environment:
-
-bash
-Copy code
-python -m venv chatdb
 ```
 
-# Activate environment:
-## Linux / macOS
-source chatdb/bin/activate
-
-## Windows
-chatdb\Scripts\activate
-Install dependencies:
+### 2. Create a Virtual Environment
+It is recommended to use a virtual environment to manage dependencies:
 
 ```bash
-Copy code
+
+# Create the environment
+python -m venv chatdb
+
+# Activate it:
+# On Linux / macOS:
+source chatdb/bin/activate
+# On Windows:
+.\chatdb\Scripts\activate
+```
+
+### 3. Install Dependencies
+Once the environment is active, install the required packages:
+
+```Bash
+
 pip install -r requirements.txt
 ```
 
-## Requirements include:
+##  Configuration
 
-mysql-connector-python – database connectivity
+ChatDB uses environment variables for database and API credentials. Create a file named `.env` in the root directory and add your details:
 
-sqlglot – AST parsing for SQL validation
-
-python-dotenv – environment variable support
-
-Gemini SDK – LLM integration
-
-## Configure environment variables:
-
-Create a .env file:
-
-env
-Copy code
+```env
+# Database Credentials
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
 DB_NAME=sakila
-LLM_API_KEY=your_api_key
-Usage
-python
-Copy code
-from chatdb.init_user import User
-from chatdb.chatDB import ChatQuery
 
-# Initialize user with database connection and LLM model
+# LLM Configuration
+LLM_API_KEY=your_api_key
+```
+
+#   Usage
+## Initialize user with database connection and LLM model
+```bash
 user = User(api_key="YOUR_LLM_API_KEY")
 
 query = ChatQuery(
@@ -123,8 +120,8 @@ query = ChatQuery(
     model="gemini-3-flash-preview",
     base_prompt="You are ChatDB, an expert SQL query planner."
 )
-
-# Generate SQL execution plan and execute
+```
+## Generate SQL execution plan and execute
 ```bash
 response = user.chat(query)
 print(response)
@@ -140,13 +137,13 @@ Step 1: Count films in each category.
 
 # Development Notes
 
-Parser: Extracts SQL steps from LLM output, handling backticks and triple backticks.
+* Parser: Extracts SQL steps from LLM output, handling backticks and triple backticks.
 
-Validator: Checks step numbering, read-only enforcement, forbidden keywords, and TEMP table usage.
+* Validator: Checks step numbering, read-only enforcement, forbidden keywords, and TEMP table usage.
 
-LLM Models: Tested with Gemini (3-pro, 3-flash) and GPT models. AST validation ensures SQL safety even if the LLM generates non-compliant SQL.
+* LLM Models: Tested with Gemini (3-pro, 3-flash) and GPT models. regex validation ensures SQL safety even if the LLM generates non-compliant SQL.
 
-Extensibility: Rules for column whitelisting, LIMIT enforcement, or query cost analysis can be added easily.
+* Extensibility: Rules for column whitelisting, LIMIT enforcement, or query cost analysis can be added easily.
 
 ##  Troubleshooting & Common Errors
 
